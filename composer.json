@@ -1,0 +1,14 @@
+{
+    "name": "psrphp/form",
+    "description": "表单生成器",
+    "type": "library",
+    "license": "GPL-3.0",
+    "autoload": {
+        "psr-4": {
+            "PsrPHP\\Form\\": "src/"
+        }
+    },
+    "require": {
+        "psrphp/template": "^1.0"
+    }
+}
