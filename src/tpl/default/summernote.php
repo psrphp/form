@@ -34,10 +34,10 @@
                                 contentType: false,
                                 dataType: "JSON",
                                 success: function(response) {
-                                    if (response.code == 0) {
-                                        callback(response);
-                                    } else {
+                                    if (response.errcode) {
                                         alert(response.message);
+                                    } else {
+                                        callback(response);
                                     }
                                 },
                                 error: function() {
@@ -47,10 +47,10 @@
                         }
                         $.each(files, function(indexInArray, valueOfElement) {
                             upload_by_form("{$upload_url??''}", valueOfElement, function(response) {
-                                if (response.code == 0) {
-                                    $("#{$id}_field").summernote('insertImage', response.data.src);
-                                } else {
+                                if (response.errcode) {
                                     alert(response.message);
+                                } else {
+                                    $("#{$id}_field").summernote('insertImage', response.data.src);
                                 }
                             });
                         });

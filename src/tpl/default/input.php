@@ -21,7 +21,7 @@
                     dataType: "JSON",
                     success: function(response) {
                         var options = '';
-                        if (response.code) {
+                        if (!response.errcode) {
                             $.each(response.data, function(indexInArray, valueOfElement) {
                                 options += "<option value=\"" + indexInArray + "\">" + valueOfElement + "</option>";
                             });

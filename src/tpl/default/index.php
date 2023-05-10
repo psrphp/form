@@ -42,7 +42,7 @@
                     dataType: "JSON",
                     success: function(response) {
                         alert(response.message);
-                        if (response.code == 0) {
+                        if (!response.errcode) {
                             window.history.go(-1);
                         }
                     },

@@ -31,10 +31,10 @@
                         contentType: false,
                         dataType: "JSON",
                         success: function(response) {
-                            if (response.code == 0) {
-                                callback(response);
-                            } else {
+                            if (response.errcode) {
                                 alert(response.message);
+                            } else {
+                                callback(response);
                             }
                         },
                         error: function() {
@@ -47,11 +47,11 @@
                 fileinput.onchange = function() {
                     $.each(event.target.files, function(indexInArray, valueOfElement) {
                         upload_by_form("{$upload_url??''}", valueOfElement, function(response) {
-                            if (response.code == 0) {
+                            if (response.errcode) {
+                                alert(response.message);
+                            } else {
                                 $("#{$id}_handler").attr("src", response.data.src);
                                 $("#{$id}_field").val(response.data.src);
-                            } else {
-                                alert(response.message);
                             }
                         });
                     });
