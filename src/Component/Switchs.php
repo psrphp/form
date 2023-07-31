@@ -61,7 +61,7 @@ class Switchs implements ItemInterface
     <div class="form-text text-muted" style="font-size: .8em;">{echo $help}</div>
     {/if}
 </div>
-<div class="p-3 bg-light  mt-2">
+<div>
     {foreach $switchs??[] as $key => $vo}
     <div id="{$id}_{:md5($key)}_target" class="{echo $vo['value']!=$value?'d-none':''}">
         {echo $vo['body']}

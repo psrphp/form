@@ -11,10 +11,14 @@
     (function() {
         var items = JSON.parse('{echo json_encode($items)}');
         var container = document.getElementById("{$id}_field");
+        items.forEach(element => {
+            element.value = String(element.value == undefined ? '' : element.value);
+            element.parent = String(element.parent == undefined ? '' : element.parent);
+        });
 
         function changeSelect() {
             $(event.target.parentNode).nextAll().remove();
-            var value = event.target.value ? event.target.value : '';
+            var value = event.target.value;
             var trueval = value;
             if (event.target.selectedIndex === 0) {
                 if (event.target.parentNode.parentNode.childNodes[3] !== event.target.parentNode) {
@@ -22,7 +26,7 @@
                 }
             }
             event.target.parentNode.parentNode.childNodes[1].value = trueval;
-            if (value) {
+            if (value != undefined && value != '') {
                 var select = buildSelect(value);
                 if (select) {
                     event.target.parentNode.parentNode.appendChild(select);
@@ -43,7 +47,6 @@
             var groups = {};
             for (let index = 0; index < items.length; index++) {
                 const ele = items[index];
-                ele.parent = ele.parent == undefined ? '' : ele.parent;
                 if (ele.parent == parent) {
                     if (ele.group) {
                         if (!groups[ele.group]) {
@@ -93,7 +96,6 @@
                 var find;
                 for (let index = 0; index < items.length; index++) {
                     const ele = items[index];
-                    ele.value = ele.value == undefined ? '' : ele.value;
                     if (ele.value == findval) {
                         findval = ele.parent;
                         parents.unshift(ele);
@@ -112,11 +114,11 @@
                     var sel = buildSelect(ele.parent, ele.value);
                     container.appendChild(sel);
                 }
-            }
-
-            var select = buildSelect(value);
-            if (select) {
-                container.appendChild(select);
+            } else {
+                var select = buildSelect();
+                if (select) {
+                    container.appendChild(select);
+                }
             }
         }
         initSelect(container.childNodes[1].value);
