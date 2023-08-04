@@ -10,7 +10,7 @@ use ReflectionClass;
 
 abstract class Common implements ItemInterface
 {
-    private $_data = [];
+    protected $_data = [];
 
     public function __set($name, $value)
     {

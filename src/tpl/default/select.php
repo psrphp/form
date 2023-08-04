@@ -11,10 +11,26 @@
     (function() {
         var items = JSON.parse('{echo json_encode($items)}');
         var container = document.getElementById("{$id}_field");
-        items.forEach(element => {
-            element.value = String(element.value == undefined ? '' : element.value);
-            element.parent = String(element.parent == undefined ? '' : element.parent);
-        });
+        for (const key in items) {
+            if (Object.hasOwnProperty.call(items, key)) {
+                const item = items[key];
+                if (typeof item === 'object') {
+                    items[key] = {
+                        value: String(item.value == undefined ? '' : item.value),
+                        parent: String(item.parent == undefined ? '' : item.parent),
+                        title: String(item.title == undefined ? '' : item.title),
+                        group: String(item.group == undefined ? '' : item.group),
+                    }
+                } else {
+                    items[key] = {
+                        value: String(item == undefined ? '' : item),
+                        title: String(item == undefined ? '' : item),
+                        parent: '',
+                        group: '',
+                    }
+                }
+            }
+        }
 
         function changeSelect() {
             $(event.target.parentNode).nextAll().remove();
@@ -113,6 +129,10 @@
                     var ele = parents[index];
                     var sel = buildSelect(ele.parent, ele.value);
                     container.appendChild(sel);
+                }
+                var select = buildSelect(value);
+                if (select) {
+                    container.appendChild(select);
                 }
             } else {
                 var select = buildSelect();

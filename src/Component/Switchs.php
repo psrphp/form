@@ -5,30 +5,28 @@ declare(strict_types=1);
 namespace PsrPHP\Form\Component;
 
 use PsrPHP\Form\Builder;
-use PsrPHP\Form\ItemInterface;
+use PsrPHP\Form\Field\Common;
 
-class Switchs implements ItemInterface
+class Switchs extends Common
 {
-    protected $label;
-    protected $name;
-    protected $value;
-    protected $switchs = [];
-
     public function __construct(string $label, string $name, $value = null)
     {
         $this->label = $label;
         $this->name = $name;
         $this->value = $value;
+        $this->switchs = [];
     }
 
     public function addSwitch(SwitchItem ...$switchs): self
     {
         foreach ($switchs as $item) {
-            $this->switchs[] = [
+            $tmp = $this->switchs;
+            array_push($tmp, [
                 'label' => $item->getLabel(),
                 'value' => $item->getValue(),
                 'body' => $item->getBody(),
-            ];
+            ]);
+            $this->switchs = $tmp;
         }
         return $this;
     }
@@ -69,12 +67,6 @@ class Switchs implements ItemInterface
     {/foreach}
 </div>
 str;
-        return Builder::getTemplate()->renderFromString($tpl, [
-            'id' => 'field_' . uniqid(),
-            'label' => $this->label,
-            'name' => $this->name,
-            'value' => $this->value,
-            'switchs' => $this->switchs,
-        ]);
+        return '<div id="' . $this->id . '">' . Builder::getTemplate()->renderFromString($tpl, $this->_data) . '</div>';
     }
 }
