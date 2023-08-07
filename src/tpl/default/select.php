@@ -20,6 +20,7 @@
                         parent: String(item.parent == undefined ? '' : item.parent),
                         title: String(item.title == undefined ? '' : item.title),
                         group: String(item.group == undefined ? '' : item.group),
+                        disabled: item.disabled ? true : false,
                     }
                 } else {
                     items[key] = {
@@ -27,6 +28,7 @@
                         title: String(item == undefined ? '' : item),
                         parent: '',
                         group: '',
+                        disabled: item.disabled ? true : false,
                     }
                 }
             }
@@ -76,7 +78,10 @@
                                         node.value = subele.value;
                                         node.innerText = subele.title ? subele.title : subele.value;
                                         if (node.value == selectvalue) {
-                                            node.selected = 'selected';
+                                            node.selected = "selected";
+                                        }
+                                        if (subele.disabled) {
+                                            node.disabled = "disabled";
                                         }
                                         optgroup.appendChild(node);
                                     }
@@ -90,6 +95,9 @@
                         node.innerText = ele.title ? ele.title : ele.value;
                         if (node.value == selectvalue) {
                             node.selected = 'selected';
+                        }
+                        if (ele.disabled) {
+                            node.disabled = "disabled";
                         }
                         select.appendChild(node);
                     }
