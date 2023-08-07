@@ -63,43 +63,49 @@
             select.appendChild(node);
 
             var groups = {};
-            for (let index = 0; index < items.length; index++) {
-                const ele = items[index];
-                if (ele.parent == parent) {
-                    if (ele.group) {
-                        if (!groups[ele.group]) {
-                            groups[ele.group] = ele.group;
-                            var optgroup = document.createElement("optgroup");
-                            optgroup.label = ele.group;
-                            items.forEach(subele => {
-                                if (subele.parent == parent) {
-                                    if (subele.group == ele.group) {
-                                        var node = document.createElement("option");
-                                        node.value = subele.value;
-                                        node.innerText = subele.title ? subele.title : subele.value;
-                                        if (node.value == selectvalue) {
-                                            node.selected = "selected";
+            for (const key in items) {
+                if (Object.hasOwnProperty.call(items, key)) {
+                    const ele = items[key];
+                    if (ele.parent == parent) {
+                        if (ele.group) {
+                            if (!groups[ele.group]) {
+                                groups[ele.group] = ele.group;
+                                var optgroup = document.createElement("optgroup");
+                                optgroup.label = ele.group;
+
+                                for (const _k in items) {
+                                    if (Object.hasOwnProperty.call(items, _k)) {
+                                        const subele = items[_k];
+                                        if (subele.parent == parent) {
+                                            if (subele.group == ele.group) {
+                                                var node = document.createElement("option");
+                                                node.value = subele.value;
+                                                node.innerText = subele.title ? subele.title : subele.value;
+                                                if (node.value == selectvalue) {
+                                                    node.selected = "selected";
+                                                }
+                                                if (subele.disabled) {
+                                                    node.disabled = "disabled";
+                                                }
+                                                optgroup.appendChild(node);
+                                            }
                                         }
-                                        if (subele.disabled) {
-                                            node.disabled = "disabled";
-                                        }
-                                        optgroup.appendChild(node);
                                     }
                                 }
-                            });
-                            select.appendChild(optgroup);
+                                select.appendChild(optgroup);
+                            }
+                        } else {
+                            var node = document.createElement("option");
+                            node.value = ele.value;
+                            node.innerText = ele.title ? ele.title : ele.value;
+                            if (node.value == selectvalue) {
+                                node.selected = 'selected';
+                            }
+                            if (ele.disabled) {
+                                node.disabled = "disabled";
+                            }
+                            select.appendChild(node);
                         }
-                    } else {
-                        var node = document.createElement("option");
-                        node.value = ele.value;
-                        node.innerText = ele.title ? ele.title : ele.value;
-                        if (node.value == selectvalue) {
-                            node.selected = 'selected';
-                        }
-                        if (ele.disabled) {
-                            node.disabled = "disabled";
-                        }
-                        select.appendChild(node);
                     }
                 }
             }
@@ -118,13 +124,15 @@
             var findval = value;
             while (true) {
                 var find;
-                for (let index = 0; index < items.length; index++) {
-                    const ele = items[index];
-                    if (ele.value == findval) {
-                        findval = ele.parent;
-                        parents.unshift(ele);
-                        find = true;
-                        break;
+                for (const key in items) {
+                    if (Object.hasOwnProperty.call(items, key)) {
+                        const ele = items[key];
+                        if (ele.value == findval) {
+                            findval = ele.parent;
+                            parents.unshift(ele);
+                            find = true;
+                            break;
+                        }
                     }
                 }
                 if (!findval || !find) {
