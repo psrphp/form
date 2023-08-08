@@ -154,6 +154,18 @@
                 var select = buildSelect();
                 if (select) {
                     container.appendChild(select);
+                } else {
+                    var select = document.createElement('select');
+                    select.className = "form-select";
+                    select.onchange = changeSelect;
+                    var node = document.createElement("option");
+                    node.innerText = "不限";
+                    node.value = "";
+                    select.appendChild(node);
+                    var div = document.createElement("div");
+                    div.className = "me-2";
+                    div.append(select);
+                    container.appendChild(div);
                 }
             }
         }
