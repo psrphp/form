@@ -1,67 +1,112 @@
-<style>
-    .ximg:hover .position-absolute {
-        display: block !important;
-    }
-</style>
+<?php $_id = uniqid('f_'); ?>
+<input type="hidden" value="{:json_encode($value)}" id="{$_id}_field">
+<div id="{$_id}_container" style="display: flex;flex-direction: row;gap: 5px;flex-wrap: wrap;"></div>
+<div style="margin-top: 5px;">
+    <button type="button" id="{$_id}_handler">{$upload_text??'上传'}</button>
+</div>
 <script>
-    $(function() {
-        $("#{$id}_field").bind('click', function() {
-            $("#{$id}_container").html('');
-            var val = $('#{$id}_field').val();
-            if (val) {
-                var pics = JSON.parse(val);
-                $.each(pics, function(index, obj) {
-                    var html = "";
-                    html += '<div class="position-relative ximg mr-2 mb-2">';
-                    html += '<input type="hidden" name="{$name}[' + index + '][src]" value="' + obj.src + '">';
-                    html += '<input type="hidden" name="{$name}[' + index + '][size]" value="' + obj.size + '">';
-                    html += '<img style="cursor:pointer;height:200px;width:200px;" class="img-thumbnail img-fluid" alt="' + obj.src + '" title="' + obj.src + '" src="' + obj.src + '" >';
-                    html += '<div class="position-absolute" style="left:10px;top:10px;right:0;display:none;">';
-                    html += '<span class="_action text-white bg-secondary d-inline-block rounded-circle text-center mr-1" style="width:25px;height:25px;cursor:pointer;" data-index="' + index + '" data-step="0">×</span>';
-                    if (index != 0) {
-                        html += '<span class="_action text-white bg-secondary d-inline-block rounded-circle text-center mr-1" style="width:25px;height:25px;cursor:pointer;"data-index="' + index + '" data-step="-1">←</span>';
+    (function() {
+        var container = document.getElementById("{$_id}_container");
+        var handler = document.getElementById("{$_id}_handler");
+        var upload_url = "{$upload_url??''}";
+        var pics = JSON.parse('{echo json_encode($value)}');
+
+        function renderValue() {
+            container.innerHTML = "";
+            for (const index in pics) {
+                if (Object.hasOwnProperty.call(pics, index)) {
+                    const obj = pics[index];
+
+                    var div = document.createElement("div");
+                    div.style.display = "flex";
+                    div.style.flexDirection = "column";
+                    div.style.gap = "5px";
+                    div.style.flexWrap = "wrap";
+                    container.appendChild(div);
+
+                    var inputsrc = document.createElement("input");
+                    inputsrc.type = "hidden";
+                    inputsrc.name = "{$name}[" + index + "][src]";
+                    inputsrc.value = obj.src;
+                    div.appendChild(inputsrc);
+
+                    var inputsize = document.createElement("input");
+                    inputsize.type = "hidden";
+                    inputsize.name = "{$name}[" + index + "][size]";
+                    inputsize.value = obj.size;
+                    div.appendChild(inputsize);
+
+                    var imgdiv = document.createElement("div");
+                    imgdiv.style.width = "145px";
+                    imgdiv.style.height = "100px";
+                    imgdiv.style.display = "flex"
+                    imgdiv.style.flexDirection = "row"
+                    imgdiv.style.justifyContent = "center"
+                    imgdiv.style.alignItems = "center"
+                    imgdiv.style.background = "#eee"
+                    imgdiv.style.padding = "5px"
+                    div.appendChild(imgdiv)
+
+                    var img = document.createElement("img");
+                    img.style.maxHeight = "100%"
+                    img.style.maxWidth = "100%"
+                    img.alt = obj.src
+                    img.title = obj.src
+                    img.src = obj.src
+                    imgdiv.appendChild(img)
+
+                    var inputtitle = document.createElement("input");
+                    inputtitle.type = "text";
+                    inputtitle.name = "{$name}[" + index + "][title]";
+                    inputtitle.value = obj.title;
+                    inputtitle.placeholder = "请输入图片标题";
+                    inputtitle.onchange = function() {
+                        pics[index]['title'] = event.target.value;
                     }
-                    if (index < pics.length - 1) {
-                        html += '<span class="_action text-white bg-secondary d-inline-block rounded-circle text-center mr-1" style="width:25px;height:25px;cursor:pointer;" data-index="' + index + '" data-step="1">→</span>';
-                    }
-                    html += '</div>';
-                    html += '<textarea class="_title form-control mt-1" name="{$name}[' + index + '][title]" placeholder="请输入图片标题" data-index="' + index + '">' + obj.title + '</textarea>';
-                    html += '</div>';
-                    $("#{$id}_container").append(html);
-                });
+                    div.appendChild(inputtitle);
 
-                $("#{$id}_container ._action").bind('click', function() {
-                    var index = $(this).data('index');
-                    var step = $(this).data('step');
+                    var actiondiv = document.createElement("div")
+                    actiondiv.style.display = "flex"
+                    actiondiv.style.gap = "5px"
+                    div.appendChild(actiondiv);
 
-                    var val = $('#{$id}_field').val();
-                    arr = JSON.parse(val);
-
-                    if (step == '0') {
-                        if (confirm("确定删除吗？")) {
-                            arr.splice(index, 1);
+                    var delbtn = document.createElement("button");
+                    delbtn.type = "button";
+                    delbtn.innerText = "删除";
+                    delbtn.onclick = function() {
+                        if (confirm('确定删除吗?')) {
+                            pics.splice(index, 1);
+                            renderValue();
                         }
-                    } else {
-                        arr[index] = arr.splice(index + step, 1, arr[index])[0];
+                    }
+                    actiondiv.appendChild(delbtn);
+
+                    if (index != 0) {
+                        var upbtn = document.createElement("button");
+                        upbtn.type = "button";
+                        upbtn.innerText = "上移";
+                        upbtn.onclick = function() {
+                            pics[index] = pics.splice(parseInt(index) - 1, 1, pics[index])[0];
+                            renderValue();
+                        }
+                        actiondiv.appendChild(upbtn);
                     }
 
-                    $('#{$id}_field').val(JSON.stringify(arr));
-                    $("#{$id}_field").trigger('click');
-                });
-                $("#{$id}_container ._title").bind('change', function() {
-                    var index = $(this).data('index');
-
-                    var val = $('#{$id}_field').val();
-                    arr = JSON.parse(val);
-
-                    arr[index]['title'] = $(this).val();
-
-                    $('#{$id}_field').val(JSON.stringify(arr));
-                    $("#{$id}_field").trigger('click');
-                });
+                    if (index < pics.length - 1) {
+                        var downbtn = document.createElement("button");
+                        downbtn.type = "button";
+                        downbtn.innerText = "下移";
+                        downbtn.onclick = function() {
+                            pics[index] = pics.splice(parseInt(index) + 1, 1, pics[index])[0];
+                            renderValue();
+                        }
+                        actiondiv.appendChild(downbtn);
+                    }
+                }
             }
-        });
-        $("#{$id}_handle").bind('click', function() {
+        }
+
+        handler.onclick = function() {
             var upload_by_form = function(url, file, callback) {
                 var data = new FormData();
                 data.append('file', file);
@@ -90,47 +135,30 @@
             fileinput.multiple = "multiple";
             fileinput.accept = "image/*";
             fileinput.onchange = function() {
-                $.each(event.target.files, function(indexInArray, valueOfElement) {
-                    upload_by_form("{$upload_url??''}", valueOfElement, function(response) {
-                        if (response.errcode) {
-                            alert(response.message);
-                        } else {
-                            var val = $('#{$id}_field').val();
-                            if (val) {
-                                arr = JSON.parse(val);
+                var items = event.target.files;
+                for (const indexInArray in items) {
+                    if (Object.hasOwnProperty.call(items, indexInArray)) {
+                        const valueOfElement = items[indexInArray];
+                        upload_by_form(upload_url, valueOfElement, function(response) {
+                            if (response.errcode) {
+                                alert(response.message);
                             } else {
-                                arr = [];
+                                pics.push({
+                                    src: response.data.src,
+                                    size: response.data.size,
+                                    title: response.data.filename,
+                                });
+                                renderValue();
                             }
-                            arr.push({
-                                src: response.data.src,
-                                size: response.data.size,
-                                title: response.data.filename,
-                            });
-                            $('#{$id}_field').val(JSON.stringify(arr));
-                            $("#{$id}_field").trigger('click');
-                        }
-                    });
-                });
+                        });
+                    }
+                }
             }
             fileinput.click();
-        });
-    });
+        }
+
+        setTimeout(function() {
+            renderValue();
+        }, 100);
+    })()
 </script>
-<div class="mt-2">
-    <label for="{$id}_field" class="form-label">{$label}</label>
-    <input type="hidden" value="{:json_encode($value)}" id="{$id}_field">
-    <div class="d-flex flex-warp mb-2" id="{$id}_container"></div>
-    <div>
-        <button type="button" class="btn btn-secondary btn-sm" id="{$id}_handle">{$upload_text??'上传'}</button>
-    </div>
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                $("#{$id}_field").trigger('click');
-            }, 100);
-        });
-    </script>
-    {if isset($help) && $help}
-    <div class="form-text text-muted" style="font-size: .8em;">{echo $help}</div>
-    {/if}
-</div>

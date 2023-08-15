@@ -8,13 +8,7 @@ use PsrPHP\Form\ItemInterface;
 
 class Row implements ItemInterface
 {
-    private $class;
     private $body;
-
-    public function __construct(string $class = 'row')
-    {
-        $this->class = $class;
-    }
 
     public function addCol(Col ...$cols): self
     {
@@ -24,6 +18,6 @@ class Row implements ItemInterface
 
     public function __toString()
     {
-        return '<div class="' . $this->class . '">' . $this->body . '</div>';
+        return '<div style="display: flex;flex-direction: row;flex-wrap: wrap;gap: 10px;">' . $this->body . '</div>';
     }
 }

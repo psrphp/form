@@ -1,16 +1,11 @@
-<div class="mt-2">
-    <label for="{$id}_field" class="form-label">{$label}</label>
-    <div class="d-flex flex-row" id="{$id}_field">
-        <input type="hidden" name="{$name}" value="{$value}">
-    </div>
-    {if isset($help) && $help}
-    <div class="form-text text-muted" style="font-size: .8em;">{echo $help}</div>
-    {/if}
+<?php $_id = uniqid('f_'); ?>
+<div style="display: flex;flex-direction: row;gap: 5px;flex-wrap: wrap;" id="{$_id}">
+    <input type="hidden" name="{$name}" value="{$value}">
 </div>
 <script>
     (function() {
         var items = JSON.parse('{echo json_encode($items)}');
-        var container = document.getElementById("{$id}_field");
+        var container = document.getElementById("{$_id}");
         for (const key in items) {
             if (Object.hasOwnProperty.call(items, key)) {
                 const item = items[key];
@@ -39,11 +34,11 @@
             var value = event.target.value;
             var trueval = value;
             if (event.target.selectedIndex === 0) {
-                if (event.target.parentNode.parentNode.childNodes[3] !== event.target.parentNode) {
-                    trueval = event.target.parentNode.previousElementSibling.childNodes[0].value;
+                if (event.target.parentNode.parentNode.children[1] !== event.target.parentNode) {
+                    trueval = event.target.parentNode.previousElementSibling.children[0].value;
                 }
             }
-            event.target.parentNode.parentNode.childNodes[1].value = trueval;
+            event.target.parentNode.parentNode.children[0].value = trueval;
             if (value != undefined && value != '') {
                 var select = buildSelect(value);
                 if (select) {
@@ -55,7 +50,6 @@
         function buildSelect(parent, selectvalue) {
             parent = parent == undefined ? '' : parent;
             var select = document.createElement('select');
-            select.className = "form-select";
             select.onchange = changeSelect;
             var node = document.createElement("option");
             node.innerText = "不限";
@@ -109,9 +103,8 @@
                     }
                 }
             }
-            if (select.childNodes.length > 1) {
+            if (select.children.length > 1) {
                 var div = document.createElement("div");
-                div.className = "me-2";
                 div.append(select);
                 return div;
             }
@@ -156,19 +149,17 @@
                     container.appendChild(select);
                 } else {
                     var select = document.createElement('select');
-                    select.className = "form-select";
                     select.onchange = changeSelect;
                     var node = document.createElement("option");
                     node.innerText = "不限";
                     node.value = "";
                     select.appendChild(node);
                     var div = document.createElement("div");
-                    div.className = "me-2";
                     div.append(select);
                     container.appendChild(div);
                 }
             }
         }
-        initSelect(container.childNodes[1].value);
+        initSelect(container.children[0].value);
     })()
 </script>

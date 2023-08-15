@@ -34,39 +34,48 @@ class Switchs extends Common
     public function __toString()
     {
         $tpl = <<<'str'
+<?php $_id = uniqid('f_'); ?>
 <script>
     $(function() {
-        $("#{$id}_handle > div > input").bind("click", function() {
-            $("#" + $(this).attr('id') + "_target").removeClass('d-none').siblings().addClass('d-none')
+        $("#{$_id}_handle > div > input").bind("click", function() {
+            $("#" + $(this).attr('id') + "_target").show().siblings().hide()
         });
     });
 </script>
-<div class="mt-2">
-    <label class="form-label">{$label}</label>
-    <div id="{$id}_handle">
+<div>
+    <label>{$label}</label>
+    <div id="{$_id}_handle">
         {foreach $switchs??[] as $key=>$vo}
-        <div class="form-check form-check-inline">
-            {if $vo['value'] == $value}
-            <input class="form-check-input" type="radio" name="{$name}" id="{$id}_{:md5($key)}" value="{$vo.value}" checked>
-            {else}
-            <input class="form-check-input" type="radio" name="{$name}" id="{$id}_{:md5($key)}" value="{$vo.value}">
-            {/if}
-            <label class="form-check-label" for="{$id}_{:md5($key)}">{$vo.label}</label>
+        <div>
+            <label>
+                <span>{$vo.label}</span>
+                {if $vo['value'] == $value}
+                <input type="radio" name="{$name}" value="{$vo.value}" checked>
+                {else}
+                <input type="radio" name="{$name}" value="{$vo.value}">
+                {/if}
+            </label>
         </div>
         {/foreach}
     </div>
     {if isset($help) && $help}
-    <div class="form-text text-muted" style="font-size: .8em;">{echo $help}</div>
+    <div style="font-size: .8em;">{echo $help}</div>
     {/if}
 </div>
 <div>
     {foreach $switchs??[] as $key => $vo}
-    <div id="{$id}_{:md5($key)}_target" class="{echo $vo['value']!=$value?'d-none':''}">
+    {if $vo['value']!=$value}
+    <div id="{$_id}_{:md5($key)}_target" style="display: none;">
         {echo $vo['body']}
     </div>
+    {else}
+    <div id="{$_id}_{:md5($key)}_target">
+        {echo $vo['body']}
+    </div>
+    {/if}
     {/foreach}
 </div>
 str;
-        return '<div id="' . $this->id . '">' . Builder::getTemplate()->renderFromString($tpl, $this->_data) . '</div>';
+        return '<div>' . Builder::getTemplate()->renderFromString($tpl, $this->_data) . '</div>';
     }
 }

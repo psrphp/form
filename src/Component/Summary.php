@@ -24,6 +24,6 @@ class Summary implements ItemInterface
 
     public function __toString()
     {
-        return '<details class="mt-2"><summary>' . htmlspecialchars($this->label) . '</summary><div class="mt-2">' . $this->body . '</div></details>';
+        return '<details><summary>' . htmlspecialchars($this->label) . '</summary><div>' . $this->body . '</div></details>';
     }
 }

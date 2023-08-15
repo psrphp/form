@@ -19,11 +19,6 @@ abstract class Common implements ItemInterface
 
     public function __get($name)
     {
-        if ($name == 'id') {
-            if (!isset($this->_data['id'])) {
-                $this->_data['id'] = 'field_' . uniqid();
-            }
-        }
         return $this->_data[$name];
     }
 
@@ -35,7 +30,8 @@ abstract class Common implements ItemInterface
 
     public function __toString()
     {
+        $this->_data['id'] = 'field_' . uniqid('f_');
         $ref = new ReflectionClass(get_called_class());
-        return '<div id="' . $this->id . '">' . Builder::getTemplate()->renderFromFile(strtolower($ref->getShortName()) . '@form-builder', $this->_data) . '</div>';
+        return '<div><div style="margin-bottom: 5px;">' . htmlspecialchars($this->_data['label']) . '</div>' . Builder::getTemplate()->renderFromFile(strtolower($ref->getShortName()) . '@form-builder', $this->_data) . '<div style="font-size:.8em;color:gray;">' . htmlspecialchars($this->_data['help'] ?? '') . '</div></div>';
     }
 }

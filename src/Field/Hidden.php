@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace PsrPHP\Form\Field;
 
-class Hidden extends Common
+use PsrPHP\Form\ItemInterface;
+use PsrPHP\Template\Template;
+
+class Hidden implements ItemInterface
 {
-    public function __construct(string $name, $value = null, array $options = [])
+    protected $name;
+    protected $value;
+
+    public function __construct(string $name, $value = null)
     {
-        foreach ($options as $key => $vo) {
-            $this->$key = $vo;
-        }
         $this->name = $name;
         $this->value = $value;
+    }
+
+    public function __toString()
+    {
+        return (new Template())->renderFromString('<input type="hidden" name="{$name}" value="{$value}">', [
+            'name' => $this->name,
+            'value' => $this->value,
+        ]);
     }
 }
