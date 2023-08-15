@@ -35,46 +35,65 @@ class Switchs extends Common
     {
         $tpl = <<<'str'
 <?php $_id = uniqid('f_'); ?>
-<script>
-    $(function() {
-        $("#{$_id}_handle > div > input").bind("click", function() {
-            $("#" + $(this).attr('id') + "_target").show().siblings().hide()
-        });
-    });
-</script>
-<div>
-    <label>{$label}</label>
-    <div id="{$_id}_handle">
-        {foreach $switchs??[] as $key=>$vo}
+<div id="{$_id}">
+    <div>
+        <label>{$label}</label>
         <div>
-            <label>
-                <span>{$vo.label}</span>
-                {if $vo['value'] == $value}
-                <input type="radio" name="{$name}" value="{$vo.value}" checked>
-                {else}
-                <input type="radio" name="{$name}" value="{$vo.value}">
-                {/if}
-            </label>
+            {foreach $switchs??[] as $key=>$vo}
+            <div>
+                <label>
+                    <span>{$vo.label}</span>
+                    {if $vo['value'] == $value}
+                    <input type="radio" name="{$name}" value="{$vo.value}" checked>
+                    {else}
+                    <input type="radio" name="{$name}" value="{$vo.value}">
+                    {/if}
+                </label>
+            </div>
+            {/foreach}
         </div>
+        {if isset($help) && $help}
+        <div style="font-size: .8em;">{echo $help}</div>
+        {/if}
+    </div>
+    <div>
+        {foreach $switchs??[] as $key => $vo}
+        {if $vo['value']!=$value}
+        <div style="display: none;">
+            {echo $vo['body']}
+        </div>
+        {else}
+        <div>
+            {echo $vo['body']}
+        </div>
+        {/if}
         {/foreach}
     </div>
-    {if isset($help) && $help}
-    <div style="font-size: .8em;">{echo $help}</div>
-    {/if}
 </div>
-<div>
-    {foreach $switchs??[] as $key => $vo}
-    {if $vo['value']!=$value}
-    <div id="{$_id}_{:md5($key)}_target" style="display: none;">
-        {echo $vo['body']}
-    </div>
-    {else}
-    <div id="{$_id}_{:md5($key)}_target">
-        {echo $vo['body']}
-    </div>
-    {/if}
-    {/foreach}
-</div>
+<script>
+    (function() {
+        var container = document.getElementById("{$_id}");
+        var tabts = container.children[0].children[1].children;
+        var tabcs = container.children[1].children;
+        for (const key in tabts) {
+            if (Object.hasOwnProperty.call(tabts, key)) {
+                const elet = tabts[key];
+                elet.children[0].children[1].onclick = function() {
+                    for (const index in tabcs) {
+                        if (Object.hasOwnProperty.call(tabcs, index)) {
+                            const elec = tabcs[index];
+                            if (index == key) {
+                                elec.style.display = "block";
+                            } else {
+                                elec.style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })()
+</script>
 str;
         return '<div>' . Builder::getTemplate()->renderFromString($tpl, $this->_data) . '</div>';
     }

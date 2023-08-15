@@ -22,12 +22,13 @@
     </div>
 
     <script>
-        $(function() {
-            $("#form").bind('submit', function(event) {
+        (function() {
+            var form = document.getElementById("form");
+            form.onsubmit = function() {
                 event.preventDefault();
                 $.ajax({
-                    type: $(this).attr("method"),
-                    url: $(this).attr("action"),
+                    type: event.target.method,
+                    url: event.target.action,
                     data: $(this).serialize(),
                     dataType: "JSON",
                     success: function(response) {
@@ -40,8 +41,8 @@
                         alert("[" + response.status + "] " + response.responseText);
                     }
                 });
-            });
-        });
+            }
+        })()
     </script>
 </body>
 

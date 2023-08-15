@@ -17,13 +17,9 @@
         var handler = contain.children[2].children[0];
         var clearbtn = contain.children[2].children[1];
         var upload_url = "{$upload_url??''}";
-        var noimg = $(preview).attr("src");
-        setTimeout(function() {
-            if ($(input).val()) {
-                $(preview).attr("src", $(input).val());
-            }
-        }, 100);
-        $(handler).bind("click", function() {
+        var noimg = preview.src;
+
+        handler.onclick = function() {
             var upload_by_form = function(url, file, callback) {
                 var data = new FormData();
                 data.append("file", file);
@@ -50,22 +46,32 @@
             var fileinput = document.createElement("input");
             fileinput.type = "file";
             fileinput.onchange = function() {
-                $.each(event.target.files, function(indexInArray, valueOfElement) {
-                    upload_by_form(upload_url, valueOfElement, function(response) {
-                        if (response.errcode) {
-                            alert(response.message);
-                        } else {
-                            $(preview).attr("src", response.data.src);
-                            $(input).val(response.data.src);
-                        }
-                    });
-                });
+                var files = event.target.files;
+                for (const key in files) {
+                    if (Object.hasOwnProperty.call(files, key)) {
+                        const ele = files[key];
+                        upload_by_form(upload_url, ele, function(response) {
+                            if (response.errcode) {
+                                alert(response.message);
+                            } else {
+                                preview.src = response.data.src;
+                                preview.value = response.data.src
+                            }
+                        });
+                    }
+                }
             }
             fileinput.click();
-        });
-        $(clearbtn).bind("click", function() {
-            $(preview).attr("src", noimg);
-            $(input).val("");
-        });
+        }
+        clearbtn.onclick = function() {
+            preview.src = noimg;
+            input.value = "";
+        }
+
+        setTimeout(function() {
+            if (input.value) {
+                preview.src = input.value;
+            }
+        }, 100);
     })()
 </script>

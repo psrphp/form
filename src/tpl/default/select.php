@@ -30,7 +30,16 @@
         }
 
         function changeSelect() {
-            $(event.target.parentNode).nextAll().remove();
+            var _parent = event.target.parentNode.parentElement;
+            var _child = _parent.children;
+            for (var i = _child.length - 1; i >= 0; i--) {
+                var _childI = _child[i];
+                if (_childI == event.target.parentNode) {
+                    break;
+                }
+                _childI.remove();
+            }
+
             var value = event.target.value;
             var trueval = value;
             if (event.target.selectedIndex === 0) {
