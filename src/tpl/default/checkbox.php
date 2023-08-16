@@ -4,9 +4,9 @@
     <div>
         <label>
             {if in_array($_vo['value'], (array)$value)}
-            <input type="checkbox" name="{$name}[]" value="{$_vo['value']}" checked>
+            <input type="checkbox" name="{$name}[{$_vo['value']}]" value="{$_vo['value']}" checked>
             {else}
-            <input type="checkbox" name="{$name}[]" value="{$_vo['value']}">
+            <input type="checkbox" name="{$name}[{$_vo['value']}]" value="{$_vo['value']}">
             {/if}
             <span>{$_vo['label']??$_vo['value']}</span>
         </label>
@@ -15,9 +15,9 @@
     <div>
         <label>
             {if in_array($_key, (array)$value)}
-            <input type="checkbox" name="{$name}[]" value="{$_key}" checked>
+            <input type="checkbox" name="{$name}[{$_key}]" value="{$_key}" checked>
             {else}
-            <input type="checkbox" name="{$name}[]" value="{$_key}">
+            <input type="checkbox" name="{$name}[{$_key}]" value="{$_key}">
             {/if}
             <span>{$_vo}</span>
         </label>
