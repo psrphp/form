@@ -1,5 +1,5 @@
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-{$lang??'zh-CN'}.min.js"></script>
 <style>
     .note-editable {
@@ -24,37 +24,49 @@
             callbacks: {
                 onImageUpload: function(files) {
                     var upload_by_form = function(url, file, callback) {
-                        var data = new FormData();
-                        data.append('file', file);
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: data,
-                            cache: false,
-                            processData: false,
-                            contentType: false,
-                            dataType: "JSON",
-                            success: function(response) {
+                        var form = new FormData();
+                        form.append("file", file);
+
+                        var xmlhttp;
+                        if (window.XMLHttpRequest) {
+                            xmlhttp = new XMLHttpRequest();
+                        } else {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.open("POST", url, true);
+                        xmlhttp.setRequestHeader("Accept", "application/json");
+                        xmlhttp.responseType = "json";
+                        xmlhttp.onerror = function(e) {};
+                        xmlhttp.ontimeout = function(e) {
+                            alert("Timeout!!");
+                        };
+                        xmlhttp.onreadystatechange = function() {
+                            if (xmlhttp.readyState == 4) {
+                                if (xmlhttp.status == 200) {
+                                    if (xmlhttp.response.errcode) {
+                                        alert(xmlhttp.response.message);
+                                    } else {
+                                        callback(xmlhttp.response);
+                                    }
+                                } else {
+                                    alert("[" + xmlhttp.status + "] " + xmlhttp.statusText);
+                                }
+                            }
+                        }
+                        xmlhttp.send(form);
+                    }
+                    for (const key in files) {
+                        if (Object.hasOwnProperty.call(files, key)) {
+                            const ele = files[key];
+                            upload_by_form(upload_url, ele, function(response) {
                                 if (response.errcode) {
                                     alert(response.message);
                                 } else {
-                                    callback(response);
+                                    $(textarea).summernote('insertImage', response.data.src);
                                 }
-                            },
-                            error: function() {
-                                alert('Error');
-                            }
-                        });
+                            });
+                        }
                     }
-                    $.each(files, function(indexInArray, valueOfElement) {
-                        upload_by_form(upload_url, valueOfElement, function(response) {
-                            if (response.errcode) {
-                                alert(response.message);
-                            } else {
-                                $(textarea).summernote('insertImage', response.data.src);
-                            }
-                        });
-                    });
                 }
             }
         });

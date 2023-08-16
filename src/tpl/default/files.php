@@ -118,27 +118,36 @@
 
         handler.onclick = function() {
             var upload_by_form = function(url, file, callback) {
-                var data = new FormData();
-                data.append('file', file);
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: data,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    dataType: "JSON",
-                    success: function(response) {
-                        if (response.errcode) {
-                            alert(response.message);
+                var form = new FormData();
+                form.append("file", file);
+
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open("POST", url, true);
+                xmlhttp.setRequestHeader("Accept", "application/json");
+                xmlhttp.responseType = "json";
+                xmlhttp.onerror = function(e) {};
+                xmlhttp.ontimeout = function(e) {
+                    alert("Timeout!!");
+                };
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4) {
+                        if (xmlhttp.status == 200) {
+                            if (xmlhttp.response.errcode) {
+                                alert(xmlhttp.response.message);
+                            } else {
+                                callback(xmlhttp.response);
+                            }
                         } else {
-                            callback(response);
+                            alert("[" + xmlhttp.status + "] " + xmlhttp.statusText);
                         }
-                    },
-                    error: function() {
-                        alert('Error');
                     }
-                });
+                }
+                xmlhttp.send(form);
             }
             var fileinput = document.createElement("input");
             fileinput.type = "file";

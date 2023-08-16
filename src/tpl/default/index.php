@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{$title ?: '表单'}</title>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.x/dist/jquery.min.js"></script>
 </head>
 
 <body>
@@ -26,21 +25,40 @@
             var form = document.getElementById("form");
             form.onsubmit = function() {
                 event.preventDefault();
-                $.ajax({
-                    type: event.target.method,
-                    url: event.target.action,
-                    data: $(this).serialize(),
-                    dataType: "JSON",
-                    success: function(response) {
-                        alert(response.message);
-                        if (!response.errcode) {
-                            window.history.go(-1);
+                var xmlhttp;
+                if (window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open(event.target.method, event.target.action, true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.setRequestHeader("Accept", "application/json");
+                xmlhttp.responseType = "json";
+                xmlhttp.onerror = function(e) {};
+                xmlhttp.ontimeout = function(e) {
+                    alert("Timeout!!");
+                };
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4) {
+                        if (xmlhttp.status == 200) {
+                            alert(xmlhttp.response.message);
+                            if (!xmlhttp.response.errcode) {
+                                window.history.go(-1);
+                            }
+                        } else {
+                            alert("[" + xmlhttp.status + "] " + xmlhttp.statusText);
                         }
-                    },
-                    error: function(response, b, c) {
-                        alert("[" + response.status + "] " + response.responseText);
                     }
-                });
+                }
+                let obj = Object.fromEntries(new FormData(form));
+                let params = new URLSearchParams();
+                for (let key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        params.set(key, obj[key])
+                    }
+                }
+                xmlhttp.send(params.toString());
             }
         })()
     </script>
