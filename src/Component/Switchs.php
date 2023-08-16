@@ -37,17 +37,17 @@ class Switchs extends Common
 <?php $_id = uniqid('f_'); ?>
 <div id="{$_id}">
     <div>
-        <label>{$label}</label>
-        <div>
+        <div>{$label}</div>
+        <div style="display: flex;flex-direction: row;gap: 10px;margin-top: 5px;">
             {foreach $switchs??[] as $key=>$vo}
             <div>
                 <label>
-                    <span>{$vo.label}</span>
                     {if $vo['value'] == $value}
                     <input type="radio" name="{$name}" value="{$vo.value}" checked>
                     {else}
                     <input type="radio" name="{$name}" value="{$vo.value}">
                     {/if}
+                    <span>{$vo.label}</span>
                 </label>
             </div>
             {/foreach}
@@ -56,7 +56,7 @@ class Switchs extends Common
         <div style="font-size: .8em;">{echo $help}</div>
         {/if}
     </div>
-    <div>
+    <div style="margin-top: 10px;">
         {foreach $switchs??[] as $key => $vo}
         {if $vo['value']!=$value}
         <div style="display: none;">
