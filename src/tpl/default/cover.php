@@ -64,7 +64,7 @@
                                 alert(response.message);
                             } else {
                                 preview.src = response.data.src;
-                                preview.value = response.data.src
+                                input.value = response.data.src;
                             }
                         });
                     }

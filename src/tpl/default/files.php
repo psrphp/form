@@ -101,11 +101,11 @@
                     span.innerText = sizex(obj.size);
                     div.appendChild(span);
 
-                    // var a = document.createElement("a");
-                    // a.href = obj.src;
-                    // a.target = "_blank";
-                    // a.innerText = "预览";
-                    // div.appendChild(a);
+                    var a = document.createElement("a");
+                    a.href = obj.src;
+                    a.target = "_blank";
+                    a.innerText = "查看";
+                    div.appendChild(a);
 
                     container.appendChild(div);
                 }
