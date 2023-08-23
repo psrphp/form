@@ -20,8 +20,9 @@
         var textarea = document.getElementById("{$_id}");
         var upload_url = "{$upload_url??''}";
         $(textarea).summernote({
-            lang: "zh-CN",
-            height: "250",
+            lang: "{$lang??'zh-CN'}",
+            height: "{$height??'250px'}",
+            width: "{$width??'800px'}",
             callbacks: {
                 onImageUpload: function(files) {
                     var upload_by_form = function(url, file, callback) {
