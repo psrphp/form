@@ -32,6 +32,6 @@ abstract class Common implements ItemInterface
     {
         $this->_data['id'] = 'field_' . uniqid('f_');
         $ref = new ReflectionClass(get_called_class());
-        return '<div><div style="margin-bottom: 5px;">' . htmlspecialchars($this->_data['label']) . '</div>' . Builder::getTemplate()->renderFromFile(strtolower($ref->getShortName()) . '@form-builder', $this->_data) . '<div style="font-size:.8em;color:gray;">' . htmlspecialchars($this->_data['help'] ?? '') . '</div></div>';
+        return '<div><div style="margin-bottom: 5px;">' . ($this->_data['label']) . '</div>' . Builder::getTemplate()->renderFromFile(strtolower($ref->getShortName()) . '@form-builder', $this->_data) . '<div style="font-size:.8em;color:gray;">' . ($this->_data['help'] ?? '') . '</div></div>';
     }
 }
