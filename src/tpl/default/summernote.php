@@ -22,7 +22,7 @@
         $(textarea).summernote({
             lang: "{$lang??'zh-CN'}",
             height: "{$height??'250px'}",
-            width: "{$width??'800px'}",
+            width: "{$width??'auto'}",
             callbacks: {
                 onImageUpload: function(files) {
                     var upload_by_form = function(url, file, callback) {
