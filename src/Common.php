@@ -22,18 +22,6 @@ abstract class Common implements ItemInterface
         return $this;
     }
 
-    public function setTitle(string $title): self
-    {
-        $this->set('title', $title);
-        return $this;
-    }
-
-    public function setStyle(string $style): self
-    {
-        $this->set('style', $style);
-        return $this;
-    }
-
     abstract public function getTpl(): string;
 
     public function __toString()

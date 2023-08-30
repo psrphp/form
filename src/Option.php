@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace PsrPHP\Form;
 
-class Option extends Common
+use PsrPHP\Template\Template;
+use Stringable;
+
+class Option implements Stringable
 {
+    protected $data = [];
+
     public function __construct(string $label, int|float|string $value, bool $selected = false, bool $disabled = false)
     {
         $this->set('label', $label);
@@ -14,10 +19,17 @@ class Option extends Common
         $this->set('disabled', $disabled);
     }
 
-    public function getTpl(): string
+    protected function set($name, $value): self
     {
-        return <<<'str'
+        $this->data[$name] = $value;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        $tpl = <<<'str'
 <option value="{$value}" {if $selected}selected{/if} {if $disabled}disabled{/if}>{$label}</option>
 str;
+        return (new Template())->renderFromString($tpl, $this->data);
     }
 }

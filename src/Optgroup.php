@@ -4,13 +4,24 @@ declare(strict_types=1);
 
 namespace PsrPHP\Form;
 
-class Optgroup extends Common
+use PsrPHP\Template\Template;
+use Stringable;
+
+class Optgroup implements Stringable
 {
+    protected $data = [];
+
     public function __construct(string $label, bool $disabled = false)
     {
         $this->set('label', $label);
         $this->set('disabled', $disabled);
         $this->set('body', '');
+    }
+
+    protected function set($name, $value): self
+    {
+        $this->data[$name] = $value;
+        return $this;
     }
 
     public function addOption(Option ...$options): self
@@ -21,10 +32,11 @@ class Optgroup extends Common
         return $this;
     }
 
-    public function getTpl(): string
+    public function __toString()
     {
-        return <<<'str'
+        $tpl = <<<'str'
 <optgroup label="{$label}" {if $disabled}disabled{/if}>{echo $body}</optgroup>
 str;
+        return (new Template())->renderFromString($tpl, $this->data);
     }
 }
