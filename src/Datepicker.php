@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PsrPHP\Form;
 
-class Date extends Color
+class Datepicker extends Color
 {
     public function __construct(string $label, string $name, $value = null, string $type = 'date')
     {
