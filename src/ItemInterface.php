@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace PsrPHP\Form;
 
-interface ItemInterface
+use Stringable;
+
+interface ItemInterface extends Stringable
 {
-    public function __toString();
 }

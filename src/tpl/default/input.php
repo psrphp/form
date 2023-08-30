@@ -1,1 +1,0 @@
-<input type="{$type??'text'}" name="{$name}" value="{$value}" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>
