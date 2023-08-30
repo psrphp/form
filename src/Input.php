@@ -66,9 +66,10 @@ str;
         return $this;
     }
 
-    public function setType(string $type)
+    public function setType(string $type): self
     {
         $this->set('type', $type);
+        return $this;
     }
 
     public function setAutocomplete(bool $autocomplete): self
