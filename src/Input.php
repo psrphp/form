@@ -27,10 +27,8 @@ class Input implements ItemInterface
     public function __toString()
     {
         $tpl = <<<'str'
-{if $type != 'hidden'}
 <div>
-    <div style="margin-bottom: 5px;">{$label??""}</div>
-{/if}
+    <div style="margin-bottom: 5px;">{$label??$name}</div>
     <?php $id = uniqid('f_'); ?>
     <input type="{$type??'text'}" name="{$name}" value="{$value}" title="{$title??''}" style="{$style??''}" list="list_{$id}" size="{$size??''}" min="{$min??''}" max="{$max??''}" step="{$step??''}" maxlength="{$maxlength??''}" pattern="{$pattern??''}" placeholder="{$placeholder??''}" <?php if (isset($required) && $required) { ?> required<?php } ?><?php if (isset($disabled) && $disabled) { ?> disabled<?php } ?><?php if (isset($readonly) && $readonly) { ?> readonly<?php } ?><?php if (isset($autofocus) && $autofocus) { ?> autofocus<?php } ?><?php if (isset($autocomplete) && !$autocomplete) { ?> autocomplete="off"<?php }else{ ?> autocomplete="on"<?php } ?>>
     {if isset($datalist) && $datalist}
@@ -40,10 +38,10 @@ class Input implements ItemInterface
         {/foreach}
     </datalist>
     {/if}
-{if $type != 'hidden'}
-    <div style="font-size:.8em;color:gray;">{$help??""}</div>
+    {if isset($help) && strlen($help)}
+    <div style="font-size:.8em;color:gray;">{$help}</div>
+    {/if}
 </div>
-{/if}
 str;
         return (new Template())->renderFromString($tpl, $this->data);
     }
