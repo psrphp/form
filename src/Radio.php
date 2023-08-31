@@ -65,7 +65,7 @@ class Radio implements Stringable
     {
         $tpl = <<<'str'
 <label>
-    <input type="radio" name="{$name}" value="{$value}" title="{$title??''}" style="{$style??''}" <?php if (isset($required) && $required) { ?> required<?php } ?><?php if (isset($disabled) && $disabled) { ?> disabled<?php } ?><?php if (isset($readonly) && $readonly) { ?> readonly<?php } ?><?php if (isset($autofocus) && $autofocus) { ?> autofocus<?php } ?><?php if (isset($checked) && $checked) { ?> checked<?php } ?>>
+    <input type="radio" name="{$name}" value="{$value}" {if isset($title) && strlen($title)} title="{$title}"{/if}{if isset($style) && strlen($style)} style="{$style}"{/if}{if isset($required) && $required} required{/if}{if isset($disabled) && $disabled} disabled{/if}{if isset($readonly) && $readonly} readonly{/if}{if isset($autofocus) && $autofocus} autofocus{/if}{if $checked} checked{/if}>
     <span>{$label}</span>
 </label>
 str;

@@ -56,7 +56,7 @@ class Switchs implements ItemInterface
             </div>
             {/foreach}
         </div>
-        {if isset($help) && $help}
+        {if isset($help) && strlen($help)}
         <div style="font-size: .8em;">{echo $help}</div>
         {/if}
     </div>

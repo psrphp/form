@@ -85,7 +85,7 @@ class Textarea extends Common
     public function getTpl(): string
     {
         return <<<'str'
-<textarea name="{$name}" title="{$title??''}" rows="{$rows??''}" cols="{$cols??''}" wrap="{$wrap??''}" style="{$style??''}" size="{$size??''}" maxlength="{$maxlength??''}" pattern="{$pattern??''}" placeholder="{$placeholder??''}" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?><?php if (isset($autofocus) && $autofocus) { ?> autofocus<?php } ?>>{$value}</textarea>
+<textarea name="{$name}" {if isset($title) && strlen($title)} title="{$title}"{/if}{if isset($rows) && strlen($rows)} rows="{$rows}"{/if}{if isset($cols) && strlen($cols)} cols="{$cols}"{/if}{if isset($wrap) && strlen($wrap)} wrap="{$wrap}"{/if}{if isset($style) && strlen($style)} style="{$style}"{/if}{if isset($size) && strlen($size)} size="{$size}"{/if}{if isset($maxlength) && strlen($maxlength)} maxlength="{$maxlength}"{/if}{if isset($pattern) && strlen($pattern)} pattern="{$pattern}"{/if}{if isset($placeholder) && strlen($placeholder)} placeholder="{$placeholder}"{/if}{if isset($required) && $required} required{/if}{if isset($disabled) && $disabled} disabled{/if}{if isset($readonly) && $readonly} readonly{/if}{if isset($autofocus) && $autofocus} autofocus{/if}>{$value}</textarea>
 str;
     }
 }

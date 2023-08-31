@@ -28,7 +28,7 @@ class Option implements Stringable
     public function __toString()
     {
         $tpl = <<<'str'
-<option value="{$value}" {if $selected}selected{/if} {if $disabled}disabled{/if}>{$label}</option>
+<option value="{$value}"{if $selected} selected{/if}{if $disabled} disabled{/if}>{$label}</option>
 str;
         return (new Template())->renderFromString($tpl, $this->data);
     }
