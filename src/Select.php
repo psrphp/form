@@ -24,25 +24,25 @@ class Select extends Common
         return $this;
     }
 
-    public function setAutofocus(bool $autofocus): self
+    public function setAutofocus(bool $autofocus = true): self
     {
         $this->set('autofocus', $autofocus);
         return $this;
     }
 
-    public function setRequired(bool $required): self
+    public function setRequired(bool $required = true): self
     {
         $this->set('required', $required);
         return $this;
     }
 
-    public function setDisabled(bool $disabled): self
+    public function setDisabled(bool $disabled = true): self
     {
         $this->set('disabled', $disabled);
         return $this;
     }
 
-    public function setMultiple(bool $multiple): self
+    public function setMultiple(bool $multiple = true): self
     {
         $this->set('multiple', $multiple);
         return $this;

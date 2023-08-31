@@ -70,31 +70,31 @@ str;
         return $this;
     }
 
-    public function setAutocomplete(bool $autocomplete): self
+    public function setAutocomplete(bool $autocomplete = true): self
     {
         $this->set('autocomplete', $autocomplete);
         return $this;
     }
 
-    public function setAutofocus(bool $autofocus): self
+    public function setAutofocus(bool $autofocus = true): self
     {
         $this->set('autofocus', $autofocus);
         return $this;
     }
 
-    public function setReadonly(bool $readonly): self
+    public function setReadonly(bool $readonly = true): self
     {
         $this->set('readonly', $readonly);
         return $this;
     }
 
-    public function setRequired(bool $required): self
+    public function setRequired(bool $required = true): self
     {
         $this->set('required', $required);
         return $this;
     }
 
-    public function setDisabled(bool $disabled): self
+    public function setDisabled(bool $disabled = true): self
     {
         $this->set('disabled', $disabled);
         return $this;
