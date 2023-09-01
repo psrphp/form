@@ -26,7 +26,7 @@ abstract class Common implements ItemInterface
 
     public function __toString()
     {
-        $tpl = '<div>{if isset($label) && strlen($label)}<div style="margin-bottom: 5px;">{$label}</div>{/if}' . $this->getTpl() . '{if isset($help) && strlen($help)}<div style="font-size:.8em;color:gray;">{echo $help}</div>{/if}</div>';
+        $tpl = '<div>{if isset($label) && strlen($label)}<div style="margin-bottom: 5px;">{$label}{if isset($required) && $required}<span title="必填" style="color: red;">*</span>{/if}</div>{/if}' . $this->getTpl() . '{if isset($help) && strlen($help)}<div style="font-size:.8em;color:gray;">{echo $help}</div>{/if}</div>';
         return (new Template)->renderFromString($tpl, $this->data);
     }
 }

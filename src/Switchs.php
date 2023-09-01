@@ -41,7 +41,7 @@ class Switchs implements ItemInterface
 <?php $_id = uniqid('f_'); ?>
 <div id="{$_id}">
     <div>
-        <div>{$label}</div>
+        <div>{$label??$name}{if isset($required) && $required}<span title="必填" style="color: red;">*</span>{/if}</div>
         <div style="display: flex;flex-direction: row;gap: 10px;margin-top: 5px;">
             {foreach $switchs??[] as $key=>$vo}
             <div>
