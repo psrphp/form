@@ -17,10 +17,10 @@ class Summernote extends Common
     public function getTpl(): string
     {
         return <<<'str'
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/lang/summernote-{$lang??'zh-CN'}.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<link href="https://cdn.bootcdn.net/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/summernote/0.8.20/lang/summernote-zh-CN.min.js"></script>
 <style>
     .note-editable {
         background-color: #fff;

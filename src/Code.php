@@ -16,12 +16,12 @@ class Code extends Common
     public function getTpl(): string
     {
         return <<<'str'
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@6.65.7/lib/codemirror.min.css" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/codemirror@6.65.7/lib/codemirror.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/codemirror@6.65.7/mode/htmlmixed/htmlmixed.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/codemirror@6.65.7/mode/php/php.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/codemirror@6.65.7/mode/javascript/javascript.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/codemirror@6.65.7/mode/xml/xml.min.js"></script>
+<link href="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/php/php.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
 <style>
     .code-container .CodeMirror {
         border: 1px solid #ddd;
