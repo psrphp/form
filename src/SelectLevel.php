@@ -17,14 +17,13 @@ class SelectLevel extends Common
     public function getTpl(): string
     {
         return <<<'str'
-<?php $_id = uniqid('f_'); ?>
-<div style="display: flex;flex-direction: row;gap: 5px;flex-wrap: wrap;" id="{$_id}">
+<div style="display: flex;flex-direction: row;gap: 5px;flex-wrap: wrap;">
     <input type="hidden" name="{$name}" value="{$value}">
 </div>
 <script>
     (function() {
         var items = JSON.parse('{echo json_encode($items)}');
-        var container = document.getElementById("{$_id}");
+        var container = document.currentScript.previousElementSibling;
         for (const key in items) {
             if (Object.hasOwnProperty.call(items, key)) {
                 const item = items[key];

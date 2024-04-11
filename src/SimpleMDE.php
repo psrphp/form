@@ -19,12 +19,11 @@ class SimpleMDE extends Common
         return <<<'str'
 <link href="https://cdn.bootcdn.net/ajax/libs/simplemde/1.11.2/simplemde.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/simplemde/1.11.2/simplemde.min.js"></script>
-<?php $_id = uniqid('f_'); ?>
-<textarea style="display: none;" name="{$name}" id="{$_id}" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>{$value}</textarea>
+<textarea style="display: none;" name="{$name}" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>{$value}</textarea>
 <script>
     (function() {
         var upload_url = "{$upload_url??''}";
-        var textarea = document.getElementById("{$_id}");
+        var textarea = document.currentScript.previousElementSibling;
         new SimpleMDE({
             element: textarea,
             spellChecker: false,

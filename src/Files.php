@@ -17,15 +17,14 @@ class Files extends Common
     public function getTpl(): string
     {
         return <<<'str'
-<?php $_id = uniqid('f_'); ?>
-<div id="{$_id}_container" style="display: flex;flex-direction: column;gap: 5px;"></div>
+<div style="display: flex;flex-direction: column;gap: 5px;"></div>
 <div style="margin-top: 5px;">
-    <button type="button" id="{$_id}_handler">上传</button>
+    <button type="button">上传</button>
 </div>
 <script>
     (function() {
-        var container = document.getElementById("{$_id}_container");
-        var handler = document.getElementById("{$_id}_handler");
+        var container = document.currentScript.previousElementSibling.previousElementSibling;
+        var handler = document.currentScript.previousElementSibling.children[0];
         var upload_url = "{$upload_url??''}";
         var files = JSON.parse('{echo json_encode($value)}');
 

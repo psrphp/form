@@ -32,11 +32,10 @@ class Summernote extends Common
         margin: 0;
     }
 </style>
-<?php $_id = uniqid('f_'); ?>
-<textarea name="{$name}" id="{$_id}" style="display: none;" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>{$value}</textarea>
+<textarea name="{$name}" style="display: none;" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>{$value}</textarea>
 <script>
     (function() {
-        var textarea = document.getElementById("{$_id}");
+        var textarea = document.currentScript.previousElementSibling;
         var upload_url = "{$upload_url??''}";
         $(textarea).summernote({
             lang: "{$lang??'zh-CN'}",

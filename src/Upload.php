@@ -17,16 +17,13 @@ class Upload extends Common
     public function getTpl(): string
     {
         return <<<'str'
-<?php $_id = uniqid('f_'); ?>
-<div>
-    <input type="text" name="{$name}" value="{$value}" id="{$_id}_field" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>
-    <button type="button" id="{$_id}_trigger">上传</button>
-</div>
+<input type="text" name="{$name}" value="{$value}" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>
+<button type="button">上传</button>
 <script>
     (function() {
         var upload_url = "{$upload_url}";
-        var field = document.getElementById("{$_id}_field");
-        var trigger = document.getElementById("{$_id}_trigger");
+        var field = document.currentScript.previousElementSibling.previousElementSibling;
+        var trigger = document.currentScript.previousElementSibling;
         trigger.onclick = function() {
             var upload_by_form = function(url, file, callback) {
                 var form = new FormData();

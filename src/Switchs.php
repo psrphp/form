@@ -38,47 +38,43 @@ class Switchs implements ItemInterface
     public function getTpl(): string
     {
         return <<<'str'
-<?php $_id = uniqid('f_'); ?>
-<div id="{$_id}">
-    <div>
-        <div>{$label??$name}{if isset($required) && $required}<span title="必填" style="color: red;">*</span>{/if}</div>
-        <div style="display: flex;flex-direction: row;gap: 10px;margin-top: 5px;">
-            {foreach $switchs??[] as $key=>$vo}
-            <div>
-                <label>
-                    {if $vo['value'] == $value}
-                    <input type="radio" name="{$name}" value="{$vo.value}" checked>
-                    {else}
-                    <input type="radio" name="{$name}" value="{$vo.value}">
-                    {/if}
-                    <span>{$vo.label}</span>
-                </label>
-            </div>
-            {/foreach}
-        </div>
-        {if isset($help) && strlen($help)}
-        <div style="font-size: .8em;">{echo $help}</div>
-        {/if}
-    </div>
-    <div style="margin-top: 10px;">
-        {foreach $switchs??[] as $key => $vo}
-        {if $vo['value']!=$value}
-        <div style="display: none;">
-            {echo $vo['body']}
-        </div>
-        {else}
+<div>
+    <div>{$label??$name}{if isset($required) && $required}<span title="必填" style="color: red;">*</span>{/if}</div>
+    <div style="display: flex;flex-direction: row;gap: 10px;margin-top: 5px;">
+        {foreach $switchs??[] as $key=>$vo}
         <div>
-            {echo $vo['body']}
+            <label>
+                {if $vo['value'] == $value}
+                <input type="radio" name="{$name}" value="{$vo.value}" checked>
+                {else}
+                <input type="radio" name="{$name}" value="{$vo.value}">
+                {/if}
+                <span>{$vo.label}</span>
+            </label>
         </div>
-        {/if}
         {/foreach}
     </div>
+    {if isset($help) && strlen($help)}
+    <div style="font-size: .8em;">{echo $help}</div>
+    {/if}
+</div>
+<div style="margin-top: 10px;">
+    {foreach $switchs??[] as $key => $vo}
+    {if $vo['value']!=$value}
+    <div style="display: none;">
+        {echo $vo['body']}
+    </div>
+    {else}
+    <div>
+        {echo $vo['body']}
+    </div>
+    {/if}
+    {/foreach}
 </div>
 <script>
     (function() {
-        var container = document.getElementById("{$_id}");
-        var tabts = container.children[0].children[1].children;
-        var tabcs = container.children[1].children;
+        var tabts = document.currentScript.previousElementSibling.previousElementSibling.children[1].children;
+        var tabcs = document.currentScript.previousElementSibling.children;
         for (const key in tabts) {
             if (Object.hasOwnProperty.call(tabts, key)) {
                 const elet = tabts[key];

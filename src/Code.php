@@ -29,23 +29,22 @@ class Code extends Common
         height: auto;
     }
 </style>
-<?php $id = uniqid('f_'); ?>
-<div class="code-container" id="{$id}">
+<div class="code-container">
     <textarea name="{$name}" <?php if (isset($required) && $required) { ?>required<?php } ?> <?php if (isset($disabled) && $disabled) { ?>disabled<?php } ?> <?php if (isset($readonly) && $readonly) { ?>readonly<?php } ?>>{$value}</textarea>
+    <script>
+        (function() {
+            var textarea = document.currentScript.previousElementSibling
+            CodeMirror.fromTextArea(textarea, {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: "htmlmixed",
+                indentUnit: 4,
+                indentWithTabs: true,
+                lineWrapping: true,
+            });
+        })()
+    </script>
 </div>
-<script>
-    (function() {
-        var textarea = document.getElementById("{$id}").children[0]
-        CodeMirror.fromTextArea(textarea, {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "htmlmixed",
-            indentUnit: 4,
-            indentWithTabs: true,
-            lineWrapping: true,
-        });
-    })()
-</script>
 str;
     }
 }
