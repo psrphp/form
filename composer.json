@@ -7,8 +7,5 @@
         "psr-4": {
             "PsrPHP\\Form\\": "src/"
         }
-    },
-    "require": {
-        "psrphp/template": "^1.0"
     }
 }
